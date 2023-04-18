@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="32dp"
+    android:background="@drawable/shape_round_big">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You are logged in as:"
+        android:fontFamily="@font/modelica_medium"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        tools:layout_editor_absoluteX="94dp" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivUserPictureDia"
+        android:layout_width="69dp"
+        android:layout_height="69dp"
+        app:layout_constraintLeft_toLeftOf="@id/textView"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:layout_marginTop="16dp"
+        app:shapeAppearanceOverlay="@style/ImageView.Round"
+        tools:srcCompat="@tools:sample/avatars" />
+    <TextView
+        android:id="@+id/tvUserNameDia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:fontFamily="@font/modelica_medium"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/ivUserPictureDia"
+        app:layout_constraintLeft_toRightOf="@id/ivUserPictureDia"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        tools:layout_editor_absoluteX="94dp" />
+    <TextView
+        android:id="@+id/tvUserEmailDia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:fontFamily="@font/modelica_medium_italic"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tvUserNameDia"
+        app:layout_constraintLeft_toRightOf="@id/ivUserPictureDia"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        tools:layout_editor_absoluteX="94dp" />
+    <Button
+        android:id="@+id/btnGoogleLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_white_on_dark"
+        android:theme="@style/whiteOnDark"
+        android:textColor="@color/white"
+        android:paddingHorizontal="16dp"
+        android:text="Logout"
+        android:fontFamily="@font/modelica_medium"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/ivUserPictureDia"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
