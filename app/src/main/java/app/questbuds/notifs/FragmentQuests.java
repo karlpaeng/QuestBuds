@@ -139,13 +139,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
         return v;
     }
-    private final Runnable notifyDataChangeRunner = new Runnable() {
-        @Override
-        public void run() {
-//            Toast.makeText(getContext(), "3", Toast.LENGTH_SHORT).show();
-            adapter.notifyDataSetChanged();
-        }
-    };
+
     void updateRecView(int cat){
         //main rec view
 //        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
@@ -233,14 +227,21 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         Query query = null;
         switch (category){
             case 0:
-                query = questsCollection.whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek).whereEqualTo("done", true).orderBy("hour", Query.Direction.ASCENDING).orderBy("min", Query.Direction.ASCENDING);
+                query = questsCollection
+                        .whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek)
+                        .whereEqualTo("done", true)
+                        .orderBy("hour", Query.Direction.ASCENDING)
+                        .orderBy("min", Query.Direction.ASCENDING);
                 break;
             case 1:
                 break;
             case 2:
                 break;
             case 3:
-                query = questsCollection.whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek).orderBy("hour", Query.Direction.ASCENDING).orderBy("min", Query.Direction.ASCENDING);
+                query = questsCollection
+                        .whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek)
+                        .orderBy("hour", Query.Direction.ASCENDING)
+                        .orderBy("min", Query.Direction.ASCENDING);
                 break;
         }
 
