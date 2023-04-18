@@ -86,7 +86,7 @@ public class Home extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
         dayWeek = new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime());
-        Toast.makeText(this, dayWeek, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, dayWeek, Toast.LENGTH_SHORT).show();
 
         fbfs = FirebaseFirestore.getInstance();
         questsCollection = fbfs.collection("user").document(userId).collection("quests");

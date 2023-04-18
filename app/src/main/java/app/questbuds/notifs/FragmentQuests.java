@@ -103,11 +103,12 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
         fbfs = FirebaseFirestore.getInstance();
         questsCollection = fbfs.collection("user").document(((Home)getActivity()).userId).collection("quests");
-        updateRecView();
+        updateRecView(3);
 
         tvAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateRecView(3);
 
                 selectCategory(prevCount, 4);
             }
@@ -122,6 +123,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         tvFin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateRecView(0);
 
                 selectCategory(prevCount, 1);
             }
@@ -144,14 +146,14 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
             adapter.notifyDataSetChanged();
         }
     };
-    void updateRecView(){
+    void updateRecView(int cat){
         //main rec view
 //        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
 
 
 
         //list = ((Home) getActivity()).
-        getAllQuestsListFromFS();
+        getAllQuestsListFromFS(cat);
         //handler
         //Handler handler = new Handler();
         //handler.postDelayed(notifyDataChangeRunner, 200);
@@ -224,12 +226,25 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                 );
 
     }
-    public void getAllQuestsListFromFS(){
+    public void getAllQuestsListFromFS(int category){
         //ArrayList<ModelQuests> retList = new ArrayList<>();
 
         //Source source = (sourceStr.equals("server") ? Source.SERVER : Source.CACHE);
+        Query query = null;
+        switch (category){
+            case 0:
+                query = questsCollection.whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek).whereEqualTo("done", true).orderBy("hour", Query.Direction.ASCENDING).orderBy("min", Query.Direction.ASCENDING);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                query = questsCollection.whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek).orderBy("hour", Query.Direction.ASCENDING).orderBy("min", Query.Direction.ASCENDING);
+                break;
+        }
 
-        questsCollection.orderBy("hour", Query.Direction.ASCENDING).orderBy("min", Query.Direction.ASCENDING).get( Source.CACHE)
+        query.get( Source.CACHE)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
