@@ -52,7 +52,6 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
     ArrayList<ModelQuests> list = new ArrayList<>();
     ImageView addbtn;
     RecAdapterManageQuests adapter;
-    AlertDialogsModule adm = new AlertDialogsModule();
 
     FirebaseFirestore fbfs;
     CollectionReference questsCollection;
@@ -126,13 +125,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
         return v;
     }
 
-    private final Runnable notifyDataChangeRunner = new Runnable() {
-        @Override
-        public void run() {
-//            Toast.makeText(getContext(), "3", Toast.LENGTH_SHORT).show();
-            adapter.notifyDataSetChanged();
-        }
-    };
+
     void updateRecView(){
         //main rec view
 //        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
@@ -148,7 +141,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
         //proceed
 
         getAllQuestsListFromFS();
-        adapter = new RecAdapterManageQuests(list, this, getContext());
+        adapter = new RecAdapterManageQuests(list, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -157,8 +150,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
     }
     @Override
     public void onClickItem(int position) {
-        AlertDialogsModule adm = new AlertDialogsModule();
-        LayoutInflater inflater = getLayoutInflater();
+
         alertDialogManageQuests(((Home)getActivity()).fbfs, ((Home)getActivity()).userId, list.get(position), position);
     }
     public void alertDialogManageQuests(FirebaseFirestore fbfs, String emailStr, @Nullable ModelQuests quest, @Nullable Integer index){
@@ -183,6 +175,8 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
         timeSelected = false;
         ArrayList<String> days = new ArrayList<>();
         if (quest == null){
+            hourInt = 0;
+            minInt = 0;
             //
             top.setText("Add a new Quest");
             done.setText("Add");

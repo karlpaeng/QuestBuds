@@ -16,26 +16,22 @@ import java.util.ArrayList;
 public class RecAdapterManageQuests extends RecyclerView.Adapter<RecAdapterManageQuests.MyViewHolder>{
     public final RecViewInterfaceManageQuests recViewInterface;
     private ArrayList<ModelQuests> list;
-    Context context;
 
 
-    public RecAdapterManageQuests(ArrayList<ModelQuests> list, RecViewInterfaceManageQuests recViewInterface, Context context) {
+    public RecAdapterManageQuests(ArrayList<ModelQuests> list, RecViewInterfaceManageQuests recViewInterface) {
         this.list = list;
         this.recViewInterface = recViewInterface;
-        this.context = context;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView time, text, days;
-        ConstraintLayout clBg;
 
-        public MyViewHolder(final View view, RecViewInterfaceManageQuests recViewInterface, Context context) {
+        public MyViewHolder(final View view, RecViewInterfaceManageQuests recViewInterface) {
             super(view);
 
             time = view.findViewById(R.id.tvTimeOnManageQuests);
             text = view.findViewById(R.id.tvTextOnManageQuestsQuests);
             days = view.findViewById(R.id.tvDaysOnManageQuests);
-            clBg = view.findViewById(R.id.clManageQuests);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +55,7 @@ public class RecAdapterManageQuests extends RecyclerView.Adapter<RecAdapterManag
     @Override
     public RecAdapterManageQuests.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recview_manage_quests, parent, false);
-        return new RecAdapterManageQuests.MyViewHolder(itemView, recViewInterface, context);
+        return new RecAdapterManageQuests.MyViewHolder(itemView, recViewInterface);
 
 
     }

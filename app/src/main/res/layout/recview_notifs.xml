@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:paddingRight="16dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/shape_round_big"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text=""
+        android:fontFamily="@font/modelica_light"
+        android:textColor="@color/charc"
+        android:textSize="24sp"
+        android:drawableLeft="@drawable/svg_time_bigger"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvTimeOnRecViewNotifs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="@font/modelica_light"
+        android:text="12:34"
+        android:textColor="@color/charc"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/textView9"
+        app:layout_constraintLeft_toRightOf="@id/textView9"
+        app:layout_constraintTop_toTopOf="@id/textView9" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text=""
+        android:drawableLeft="@drawable/svg_chat"
+        android:drawableTint="@color/gray"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/modelica_medium"
+        app:layout_constraintLeft_toLeftOf="@id/textView9"
+        app:layout_constraintRight_toRightOf="@id/textView9"
+        app:layout_constraintTop_toBottomOf="@id/textView9"/>
+
+    <TextView
+        android:id="@+id/tvMessageOnRecViewNotifs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="14sp"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/modelica_bold"
+        app:layout_constraintLeft_toLeftOf="@id/tvTimeOnRecViewNotifs"
+        app:layout_constraintTop_toTopOf="@id/textView8"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

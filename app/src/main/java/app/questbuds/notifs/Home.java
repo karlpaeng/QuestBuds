@@ -52,7 +52,6 @@ public class Home extends AppCompatActivity {
     String userId;
     String dayWeek;
 
-    ArrayList<ModelQuests> questsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +119,7 @@ public class Home extends AppCompatActivity {
             }
         });
     }
-    public boolean isInternetConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return cm.getActiveNetwork() != null && cm.getNetworkCapabilities(cm.getActiveNetwork()) != null;
-        } else {
-            return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        }
-    }
+
     public void selectFragment(int f){
 
         if (f!=1) {

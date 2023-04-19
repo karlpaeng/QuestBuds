@@ -115,6 +115,19 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+            fbfs.collection("user").document(user.getEmail()).collection("notifs")
+                    .get(Source.SERVER)
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "failed to retrieve notifications from server", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
             Toast.makeText(this, "Welcome, "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,Home.class);

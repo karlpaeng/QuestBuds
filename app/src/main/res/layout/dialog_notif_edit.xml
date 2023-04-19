@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_round_big"
+    android:paddingVertical="32dp"
+    android:backgroundTint="@color/light_gray">
+
+    <TextView
+        android:id="@+id/tvTopDiaNotifEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/modelica_medium"
+        android:text="Edit Notification details"
+        android:textColor="@color/charc"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/modelica_medium_italic"
+        android:text="Time"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvTopDiaNotifEdit"
+        app:layout_constraintLeft_toLeftOf="@id/tvTopDiaNotifEdit"/>
+
+    <Button
+        android:id="@+id/btnSelectNotifTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_white_on_dark"
+        android:fontFamily="@font/modelica_medium"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Select time"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:theme="@style/whiteOnGray"
+        tools:layout_editor_absoluteY="32dp"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
+        app:layout_constraintLeft_toLeftOf="@id/textView10"/>
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/modelica_medium_italic"
+        android:text="Message (optional)"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/btnSelectNotifTime"
+        app:layout_constraintTop_toBottomOf="@id/btnSelectNotifTime" />
+
+    <EditText
+        android:id="@+id/etNotifMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_round_small"
+        android:ems="7"
+        android:fontFamily="@font/modelica_medium"
+        android:hint="Enter Notification Message"
+        android:inputType="textPersonName"
+        android:padding="15dp"
+        android:text=""
+        android:textColorHighlight="@color/light_gray"
+        android:textColorHint="@color/light_gray"
+        app:layout_constraintTop_toBottomOf="@id/textView11"/>
+
+    <Button
+        android:id="@+id/btnDiaNotifEditDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple_white_on_dark"
+        android:fontFamily="@font/modelica_medium"
+        android:paddingHorizontal="16dp"
+        android:text="Update"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:theme="@style/whiteOnGray"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNotifMsg" />
+
+    <Button
+        android:id="@+id/btnDiaNotifDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple_white_on_dark"
+        android:fontFamily="@font/modelica_medium"
+        android:paddingHorizontal="16dp"
+        android:text="Delete"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:theme="@style/whiteOnDark"
+        app:layout_constraintRight_toLeftOf="@id/btnDiaNotifEditDone"
+        app:layout_constraintTop_toTopOf="@id/btnDiaNotifEditDone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
