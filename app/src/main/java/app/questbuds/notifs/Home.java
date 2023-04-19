@@ -163,31 +163,7 @@ public class Home extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
-    public void updateQuestDoneStatus(String id, boolean value){
-        questsCollection.document(id)
-                .update("done", value)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
 
-                        if(task.isSuccessful()){
-                            //
-                        }else{
-                            //
-                            Toast.makeText(Home.this, "Failed to update", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Home.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-    public ArrayList<ModelQuests> getFinishedQuestsFromFS(){
-        ArrayList<ModelQuests> retList = new ArrayList<>();
-        //
-        return retList;
-    }
+
 
 }

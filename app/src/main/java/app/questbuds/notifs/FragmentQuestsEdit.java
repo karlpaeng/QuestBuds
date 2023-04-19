@@ -51,6 +51,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
     RecyclerView recyclerView;
     ArrayList<ModelQuests> list = new ArrayList<>();
     ImageView addbtn;
+    TextView noQuests;
     RecAdapterManageQuests adapter;
 
     FirebaseFirestore fbfs;
@@ -106,6 +107,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
         v = inflater.inflate(R.layout.fragment_quests_edit, container, false);
         recyclerView = v.findViewById(R.id.rvManageQuests);
         addbtn = v.findViewById(R.id.btnAddQuests);
+        noQuests = v.findViewById(R.id.tvNoManageQuests);
 
         fbfs = FirebaseFirestore.getInstance();
         questsCollection = fbfs.collection("user").document(((Home)getActivity()).userId).collection("quests");
@@ -381,6 +383,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
 
                         }
                         adapter.notifyDataSetChanged();
+                        noQuests.setVisibility(list.isEmpty() ? View.VISIBLE : View.INVISIBLE);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

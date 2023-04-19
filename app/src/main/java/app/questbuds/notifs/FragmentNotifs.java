@@ -48,6 +48,7 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
     RecyclerView recyclerView;
     ArrayList<ModelNotifs> list = new ArrayList<>();
     ImageView addbtn;
+    TextView noNotifs;
     RecAdapterNotifs adapter;
 
     FirebaseFirestore fbfs;
@@ -103,6 +104,8 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
         v = inflater.inflate(R.layout.fragment_notifs, container, false);
         recyclerView = v.findViewById(R.id.rvNotifs);
         addbtn = v.findViewById(R.id.ivAddNotif);
+        noNotifs = v.findViewById(R.id.tvNoNotifs);
+
         fbfs = FirebaseFirestore.getInstance();
         notifsCollection = fbfs.collection("user").document(((Home)getActivity()).userId).collection("notifs");
 
@@ -152,6 +155,7 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                             list.add(notifs);
                         }
                         adapter.notifyDataSetChanged();
+                        noNotifs.setVisibility(list.isEmpty() ? View.VISIBLE : View.INVISIBLE);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -243,6 +247,7 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                                     adapter.remove(index);
 
                                     alertDialog.dismiss();
+                                    noNotifs.setVisibility(list.isEmpty() ? View.VISIBLE : View.INVISIBLE);
 
                                 }else Toast.makeText(getContext(), "Failed:"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 

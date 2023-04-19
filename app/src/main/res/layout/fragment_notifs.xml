@@ -44,6 +44,18 @@
             app:layout_constraintBottom_toBottomOf="@id/textView3"
             app:layout_constraintRight_toRightOf="parent"/>
 
+        <TextView
+            android:id="@+id/tvNoNotifs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="No Notificatons, tap + to add"
+            android:fontFamily="@font/modelica_medium_italic"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@id/rvNotifs"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvNotifs"
             android:layout_width="match_parent"

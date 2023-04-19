@@ -42,7 +42,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
     View v;
 
     int prevCount;
-    TextView tvFin, tvUnfin, tvNew, tvAll;
+    TextView tvFin, tvUnfin, tvNew, tvAll, noQuests;
     RecyclerView recView;
     RecAdapterQuests adapter;
     CollectionReference questsCollection;
@@ -103,6 +103,9 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         tvNew = v.findViewById(R.id.tvTasksSortByNew);
         tvAll = v.findViewById(R.id.tvTasksSortByAll);
         recView = v.findViewById(R.id.rvYourQuests);
+        noQuests = v.findViewById(R.id.tcNoQuests);
+
+
 
         prevCount = 4;// set initial category
         tvAll.setTextColor(ContextCompat.getColorStateList(getContext(),R.color.white));
@@ -150,7 +153,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         return v;
     }
 
-    void updateRecView(int cat){
+    private void updateRecView(int cat){
         //main rec view
 //        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
 
@@ -164,6 +167,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
 //        Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
         //proceed
+
         adapter = new RecAdapterQuests(list, this, getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recView.setLayoutManager(layoutManager);
@@ -223,20 +227,16 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
     public void onClickItem(int position) {
 
         list.get(position).done = !(list.get(position).done);
+//        adapter.notifyItemRemoved(position);
         adapter.notifyItemChanged(position);
-        ((Home) getActivity()).updateQuestDoneStatus(
+        updateQuestDoneStatus(
                 list.get(position).taskId,
                 list.get(position).done
                 );
 
     }
-    public TimeInterval getCurrentInterval(int h, int m){
-        TimeInterval interval = new TimeInterval();
-        fbfs.collection("user").document(((Home)getActivity()).userId).collection("notifs");
 
-        return interval;
-    }
-    public void getAllQuestsListFromFS(int category){
+    private void getAllQuestsListFromFS(int category){
         //ArrayList<ModelQuests> retList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
@@ -401,6 +401,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
                         }
                         adapter.notifyDataSetChanged();
+                        noQuests.setVisibility(list.isEmpty() ? View.VISIBLE : View.INVISIBLE);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -412,4 +413,28 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         //Toast.makeText(Home.this, "before return:"+questsList.size(), Toast.LENGTH_SHORT).show();
         //return retList;
     }
+
+    private void updateQuestDoneStatus(String id, boolean value){
+        questsCollection.document(id)
+                .update("done", value)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful()){
+                            //
+                        }else{
+                            //
+                            Toast.makeText(getContext(), "Failed to update", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 }

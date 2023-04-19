@@ -43,6 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     SplashScreen splashScreen;
@@ -101,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(user!= null){
             fbfs = FirebaseFirestore.getInstance();
+            HashMap<String , Object> map = new HashMap<>();
+
+            fbfs.collection("user").document(user.getEmail()).set(map);
             fbfs.collection("user").document(user.getEmail()).collection("quests")
                     .get(Source.SERVER)
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
