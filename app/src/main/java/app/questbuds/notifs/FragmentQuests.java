@@ -26,7 +26,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +49,9 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
     FirebaseFirestore fbfs;
 
     ArrayList<ModelQuests> list = new ArrayList<>();
+
+    int currHr, currMin, startHr, startMin, endHr, endMin;
+    int mixedTimeStart, mixedTimeEnd, mixedCurrTime;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -116,6 +124,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         tvNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateRecView(2);
 
                 selectCategory(prevCount, 3);
             }
@@ -133,6 +142,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
             @Override
             public void onClick(View view) {
 
+                updateRecView(1);
                 selectCategory(prevCount, 2);
             }
         });
@@ -220,10 +230,27 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                 );
 
     }
+    public TimeInterval getCurrentInterval(int h, int m){
+        TimeInterval interval = new TimeInterval();
+        fbfs.collection("user").document(((Home)getActivity()).userId).collection("notifs");
+
+        return interval;
+    }
     public void getAllQuestsListFromFS(int category){
         //ArrayList<ModelQuests> retList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        currHr = Integer.parseInt (new SimpleDateFormat("H", Locale.ENGLISH).format(date.getTime()));
+        currMin = Integer.parseInt (new SimpleDateFormat("m", Locale.ENGLISH).format(date.getTime()));
+
+        mixedTimeStart = 0;
+        mixedTimeEnd = 1440;
+        mixedCurrTime = (currHr*60) + currMin;
+
 
         //Source source = (sourceStr.equals("server") ? Source.SERVER : Source.CACHE);
+        //for past quests
+
         Query query = null;
         switch (category){
             case 0:
@@ -232,18 +259,120 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                         .whereEqualTo("done", true)
                         .orderBy("hour", Query.Direction.ASCENDING)
                         .orderBy("min", Query.Direction.ASCENDING);
+                fbfs.collection("user").document(((Home)getActivity()).userId).collection("notifs")
+                        .orderBy("hour").orderBy("min")
+                        .get(Source.CACHE)
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                //
+                                //list.clear();
+
+                                mixedTimeStart = 0;
+                                mixedTimeEnd = 1440;
+                                for (DocumentSnapshot snap : task.getResult()) {
+                                    //
+                                    int mixedSnapTime = (snap.getLong("hour").intValue() * 60) + snap.getLong("min").intValue();
+                                    if (mixedCurrTime >= mixedSnapTime) {
+                                        mixedTimeEnd = mixedSnapTime;
+                                    }
+                                    if (mixedCurrTime < mixedSnapTime) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "failed to retrieve notifications", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                 break;
             case 1:
+                query = questsCollection
+                        .whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek)
+                        .whereEqualTo("done", false)
+                        .orderBy("hour", Query.Direction.ASCENDING)
+                        .orderBy("min", Query.Direction.ASCENDING);
+                fbfs.collection("user").document(((Home)getActivity()).userId).collection("notifs")
+                        .orderBy("hour").orderBy("min")
+                        .get(Source.CACHE)
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                //
+                                //list.clear();
+                                mixedTimeStart = 0;
+                                mixedTimeEnd = 1440;
+
+                                for (DocumentSnapshot snap : task.getResult()) {
+                                    //
+                                    int mixedSnapTime = (snap.getLong("hour").intValue() * 60) + snap.getLong("min").intValue();
+                                    if (mixedCurrTime >= mixedSnapTime) {
+                                        mixedTimeEnd = mixedSnapTime;
+                                    }
+                                    if (mixedCurrTime < mixedSnapTime) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "failed to retrieve notifications", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                 break;
             case 2:
+                query = questsCollection
+                        .whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek)
+                        .orderBy("hour", Query.Direction.ASCENDING)
+                        .orderBy("min", Query.Direction.ASCENDING);
+
+                fbfs.collection("user").document(((Home)getActivity()).userId).collection("notifs")
+                        .orderBy("hour").orderBy("min")
+                        .get(Source.CACHE)
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                //
+                                mixedTimeStart = 0;
+                                mixedTimeEnd = 1440;
+                                for (DocumentSnapshot snap: task.getResult()) {
+                                    //
+                                    int mixedSnapTime = (snap.getLong("hour").intValue() * 60) + snap.getLong("min").intValue();
+                                    if (mixedCurrTime <= mixedSnapTime){
+                                        mixedTimeEnd = mixedSnapTime;
+                                        break;
+                                    }
+                                    if (mixedCurrTime > mixedSnapTime){
+                                        mixedTimeStart = mixedSnapTime;
+                                    }
+//                                    list.add(notifs);
+                                }
+//                                adapter.notifyDataSetChanged();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "failed to retrieve notifications", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                 break;
             case 3:
                 query = questsCollection
                         .whereArrayContains("daysOfWeek", ((Home)getActivity()).dayWeek)
                         .orderBy("hour", Query.Direction.ASCENDING)
                         .orderBy("min", Query.Direction.ASCENDING);
+
+                mixedTimeStart = 0;
+                mixedTimeEnd = 1440;
                 break;
         }
+
+
 
         query.get( Source.CACHE)
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -253,16 +382,21 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                         for (DocumentSnapshot snap: task.getResult()) {
                             //Toast.makeText(Home.this, "fs size:"+task.getResult().size(), Toast.LENGTH_SHORT).show();
                             ///snap.toObject(ModelTasks.class);
-                            ModelQuests quest = new ModelQuests(
-                                    snap.getId(),
-                                    snap.getString("text"),
-                                    snap.getLong("hour").intValue(),
-                                    snap.getLong("min").intValue(),
-                                    snap.getBoolean("done"),
-                                    (ArrayList<String>) snap.get("daysOfWeek")
-                            );
+
+                            int questMixedTime = (snap.getLong("hour").intValue()*60) + snap.getLong("min").intValue();
+                            if (questMixedTime >= mixedTimeStart && questMixedTime < mixedTimeEnd){
+                                ModelQuests quest = new ModelQuests(
+                                        snap.getId(),
+                                        snap.getString("text"),
+                                        snap.getLong("hour").intValue(),
+                                        snap.getLong("min").intValue(),
+                                        snap.getBoolean("done"),
+                                        (ArrayList<String>) snap.get("daysOfWeek")
+                                );
+                                list.add(quest);
+                            }
                             //Toast.makeText(Home.this, quest.toString(), Toast.LENGTH_SHORT).show();
-                            list.add(quest);
+
                             //Toast.makeText(Home.this, "after add:"+questsList.size(), Toast.LENGTH_SHORT).show();
 
                         }

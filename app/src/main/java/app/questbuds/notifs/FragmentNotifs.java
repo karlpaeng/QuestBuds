@@ -231,7 +231,7 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
             public void onClick(View view) {
 
                 //
-                fbfs.collection("user").document(emailStr).collection("quests").document(notifs.notifId).delete()
+                fbfs.collection("user").document(emailStr).collection("notifs").document(notifs.notifId).delete()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
