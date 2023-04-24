@@ -129,6 +129,19 @@ public class MainActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "failed to retrieve sign-in details from server", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            fbfs.collection("user").document(user.getEmail()).collection("last_sign")
+                    .whereEqualTo("id", "1").get(Source.SERVER)
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
                             Toast.makeText(MainActivity.this, "failed to retrieve notifications from server", Toast.LENGTH_SHORT).show();
                         }
                     });

@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -114,7 +115,9 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
         fbfs = FirebaseFirestore.getInstance();
         questsCollection = fbfs.collection("user").document(((Home)getActivity()).userId).collection("quests");
-        updateRecView(3);
+
+        checkLastSignIfEmpty();
+        //updateRecView(3);
 
         tvAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -432,6 +435,61 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    public void checkLastSignIfEmpty(){
+
+        fbfs.collection("user").document(((Home)getActivity()).userId).collection("last_sign")
+                .whereEqualTo("id", "1").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Calendar calendar = Calendar.getInstance();
+                        Date date = calendar.getTime();
+                        String dateNow = new SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH).format(date.getTime());
+                        if (task.isSuccessful()){
+                            if (task.getResult().size() == 1){
+                                for (DocumentSnapshot doc : task.getResult()){
+                                    if(!dateNow.equals(doc.getString("date"))){
+                                        //update all, update lastsign
+                                        fbfs.collection("user").document(((Home)getActivity()).userId).collection("quests").get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        for (DocumentSnapshot snap: task.getResult()) {
+                                                            snap.getReference().update("done", false);
+
+                                                        }
+                                                        updateRecView(3);
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+
+                                                    }
+                                                });
+                                        //
+                                        doc.getReference().update("date", dateNow);
+
+                                    }else {updateRecView(3);}
+                                }
+                            }else if (task.getResult().size() == 0){
+                                HashMap<String , Object> map = new HashMap<>();
+                                map.put("id", "1");
+                                map.put("date", dateNow);
+
+                                fbfs.collection("user").document(((Home)getActivity()).userId).collection("last_sign").document("1")
+                                        .set(map);
+                                updateRecView(3);
+                            }
+                            //Toast.makeText(Home.this, "last sign:" + lastSignIfEmpty, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "failed to retrieve sign-in details from server", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

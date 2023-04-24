@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class Home extends AppCompatActivity {
@@ -51,6 +52,8 @@ public class Home extends AppCompatActivity {
     CollectionReference questsCollection;
     String userId;
     String dayWeek;
+
+    boolean lastSignIfEmpty;
 
 
     @Override
@@ -89,6 +92,8 @@ public class Home extends AppCompatActivity {
 
         fbfs = FirebaseFirestore.getInstance();
         questsCollection = fbfs.collection("user").document(userId).collection("quests");
+        //checkLastSignIfEmpty();
+
 
         //questsList = getQuestsListFromFS();
         userPic.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +168,7 @@ public class Home extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
+
 
 
 
