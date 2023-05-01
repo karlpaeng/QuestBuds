@@ -323,44 +323,57 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                                         Toast.makeText(getContext(), "failed to retrieve notif details", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-
-
-                        
-
                     }else{
+                        notifId = "" + (hourInt < 10 ? "0" + hourInt : hourInt) + (minInt < 10 ? "0" + minInt : minInt);
                         //update
-                        fbfs.collection("user").document(emailStr).collection("notifs").document(notifs.notifId).update(
-                                        "text", et.getText().toString(),
-                                        "hour", hourInt,
-                                        "min", minInt
-                                )
+                        //delete muna
+                        fbfs.collection("user").document(emailStr).collection("notifs").document(notifs.notifId).delete()
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             AlarmHandler alarmHandler = new AlarmHandler(getContext());
-                                            alarmHandler.cancelAlarmManager(list.get(index).hourNotif, list.get(index).minNotif);
-                                            alarmHandler.setAlarmManager(hourInt, minInt);
-                                            Toast.makeText(getContext(), "Successfully updated", Toast.LENGTH_SHORT).show();
-                                            //adapter.notifyDataSetChanged();
-                                            //update rec view
-                                            list.get(index).notifText = et.getText().toString();
-                                            list.get(index).hourNotif = hourInt;
-                                            list.get(index).minNotif = minInt;
+                                            alarmHandler.cancelAlarmManager(notifs.hourNotif, notifs.minNotif);
+                                            //
+                                            HashMap<String , Object> map = new HashMap<>();
+                                            map.put("text", et.getText().toString());
+                                            map.put("hour", hourInt);
+                                            map.put("min", minInt);
+                                            map.put("id", notifId);
+                                            fbfs.collection("user").document(emailStr).collection("notifs").document(notifId).set(map)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()){
+                                                                AlarmHandler alarmHandler = new AlarmHandler(getContext());
+                                                                alarmHandler.cancelAlarmManager(list.get(index).hourNotif, list.get(index).minNotif);
+                                                                alarmHandler.setAlarmManager(hourInt, minInt);
+                                                                Toast.makeText(getContext(), "Successfully updated", Toast.LENGTH_SHORT).show();
+                                                                //adapter.notifyDataSetChanged();
+                                                                //update rec view
+                                                                list.get(index).notifText = et.getText().toString();
+                                                                list.get(index).hourNotif = hourInt;
+                                                                list.get(index).minNotif = minInt;
+                                                                list.get(index).notifId = notifId;
 
-                                            adapter.notifyDataSetChanged();
-                                            alertDialog.dismiss();
+                                                                adapter.notifyDataSetChanged();
+                                                                alertDialog.dismiss();
+
+                                                            }
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(getContext(), "Not updated", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
 
 
-                                        }
-                                        else Toast.makeText(getContext(), "Failed to update", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }else Toast.makeText(getContext(), "Failed:"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
+
                     }
                 }
 
