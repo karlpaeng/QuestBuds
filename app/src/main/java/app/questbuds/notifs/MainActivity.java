@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "failed to retrieve sign-in details from server", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "failed to retrieve notifications from server", Toast.LENGTH_SHORT).show();
                         }
                     });
             fbfs.collection("user").document(user.getEmail()).collection("last_sign")
@@ -142,13 +142,16 @@ public class MainActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "failed to retrieve notifications from server", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "failed to retrieve sign-in details from server", Toast.LENGTH_SHORT).show();
                         }
                     });
 
             Toast.makeText(this, "Welcome, "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,Home.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            if (getIntent().getStringExtra("to") != null){
+                intent.putExtra("to", getIntent().getStringExtra("to"));
+            }
             startActivity(intent);
             finish();
         }

@@ -2,12 +2,15 @@ package app.questbuds.notifs;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -53,6 +56,8 @@ public class Home extends AppCompatActivity {
     String userId;
     String dayWeek;
 
+    boolean showCurrent;
+
     boolean lastSignIfEmpty;
 
 
@@ -62,6 +67,12 @@ public class Home extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(Home.this, R.color.light_gray));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        ActivityCompat.requestPermissions(Home.this, new String[]{
+                android.Manifest.permission.SCHEDULE_EXACT_ALARM,
+                android.Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                Manifest.permission.POST_NOTIFICATIONS
+        }, PackageManager.PERMISSION_GRANTED);
 
         quests = findViewById(R.id.btnTasks);
         add = findViewById(R.id.btnAddTasks);
@@ -81,8 +92,25 @@ public class Home extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Picasso.get().load(user.getPhotoUrl()).into(userPic);
+        showCurrent = false;
 
+
+
+        if (getIntent().getStringExtra("to") != null) {
+            if (getIntent().getStringExtra("to").equals("current")){
+                showCurrent = true;
+                /*
+                FragmentQuests fragmentQuests = new FragmentQuests();
+                fragmentQuests.updateRecView(2);
+                fragmentQuests.selectCategory(fragmentQuests.prevCount, 3);
+
+                 */
+            }
+        }
         selectFragment(1);
+
+
+
 
         userId = user.getEmail();//"sampleUserId";//
         Calendar calendar = Calendar.getInstance();

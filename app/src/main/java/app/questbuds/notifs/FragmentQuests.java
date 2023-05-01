@@ -107,11 +107,19 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         noQuests = v.findViewById(R.id.tcNoQuests);
 
 
+        //prevCount = ((Home)getActivity()).showCurrent ? 3 : 4;
+        if (((Home)getActivity()).showCurrent){
+            prevCount = 3;
+            tvNew.setTextColor(ContextCompat.getColorStateList(getContext(),R.color.white));
+            tvNew.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.gray));
+            tvNew.setBackgroundResource(R.drawable.ripple_white_on_dark);
+        }else {
+            prevCount = 4;
+            tvAll.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.white));
+            tvAll.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.gray));
+            tvAll.setBackgroundResource(R.drawable.ripple_white_on_dark);
+        }
 
-        prevCount = 4;// set initial category
-        tvAll.setTextColor(ContextCompat.getColorStateList(getContext(),R.color.white));
-        tvAll.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.gray));
-        tvAll.setBackgroundResource(R.drawable.ripple_white_on_dark);
 
         fbfs = FirebaseFirestore.getInstance();
         questsCollection = fbfs.collection("user").document(((Home)getActivity()).userId).collection("quests");
@@ -156,7 +164,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
         return v;
     }
 
-    private void updateRecView(int cat){
+    public void updateRecView(int cat){
         //main rec view
 //        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
 
@@ -179,7 +187,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
 
     }
-    private void selectCategory(int prev, int curr){
+    public void selectCategory(int prev, int curr){
 
         switch (prev){
             case 1:
@@ -253,6 +261,7 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
 
         //Source source = (sourceStr.equals("server") ? Source.SERVER : Source.CACHE);
         //for past quests
+        //((Home)getActivity()).dayWeek = new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime());
 
         Query query = null;
         switch (category){
@@ -345,11 +354,11 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                                 for (DocumentSnapshot snap: task.getResult()) {
                                     //
                                     int mixedSnapTime = (snap.getLong("hour").intValue() * 60) + snap.getLong("min").intValue();
-                                    if (mixedCurrTime <= mixedSnapTime){
+                                    if (mixedCurrTime < mixedSnapTime){
                                         mixedTimeEnd = mixedSnapTime;
                                         break;
                                     }
-                                    if (mixedCurrTime > mixedSnapTime){
+                                    if (mixedCurrTime >= mixedSnapTime){
                                         mixedTimeStart = mixedSnapTime;
                                     }
 //                                    list.add(notifs);
@@ -461,7 +470,9 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                                                             snap.getReference().update("done", false);
 
                                                         }
-                                                        updateRecView(3);
+                                                        updateRecView(((Home) getActivity()).showCurrent ? 2 : 3);
+
+                                                        selectCategory(prevCount, (((Home) getActivity()).showCurrent ? 3 : 4));
                                                     }
                                                 }).addOnFailureListener(new OnFailureListener() {
                                                     @Override
@@ -472,7 +483,10 @@ public class FragmentQuests extends Fragment implements RecViewInterfaceQuests {
                                         //
                                         doc.getReference().update("date", dateNow);
 
-                                    }else {updateRecView(3);}
+                                    }else {
+                                        updateRecView(((Home) getActivity()).showCurrent ? 2 : 3);
+                                        selectCategory(prevCount, (((Home) getActivity()).showCurrent ? 3 : 4));
+                                    }
                                 }
                             }else if (task.getResult().size() == 0){
                                 HashMap<String , Object> map = new HashMap<>();

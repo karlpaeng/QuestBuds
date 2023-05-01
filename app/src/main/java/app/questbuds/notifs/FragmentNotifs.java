@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -56,6 +57,7 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
 
     int hourInt, minInt;
     boolean timeSelected;
+    String notifId;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -240,6 +242,8 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+                                    AlarmHandler alarmHandler = new AlarmHandler(getContext());
+                                    alarmHandler.cancelAlarmManager(notifs.hourNotif, notifs.minNotif);
                                     String timeStr2 = (notifs.hourNotif > 12 ? notifs.hourNotif - 12 : (notifs.hourNotif > 0 ? notifs.hourNotif : 12)) + ":" + (notifs.minNotif< 10 ? "0" : "") + notifs.minNotif + (notifs.hourNotif >= 12 ? "PM" : "AM");
                                     Toast.makeText(getContext(), "deleted: "+timeStr2+" notification", Toast.LENGTH_SHORT).show();
                                     list.remove(index);
@@ -265,36 +269,63 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                 } else {
                     //
                     if(notifs == null){
-                        String idStr = UUID.randomUUID().toString();
-                        HashMap<String , Object> map = new HashMap<>();
-                        map.put("text", et.getText().toString());
-                        map.put("hour", hourInt);
-                        map.put("min", minInt);
-
-                        fbfs.collection("user").document(emailStr).collection("notifs").document(idStr).set(map)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        notifId = "" + (hourInt < 10 ? "0" + hourInt : hourInt) + (minInt < 10 ? "0" + minInt : minInt);
+                        fbfs.collection("user").document(emailStr).collection("notifs").whereEqualTo("id", notifId).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
-                                            Toast.makeText(getContext(), ""+emailStr+map.toString(), Toast.LENGTH_SHORT).show();
-                                            //update rec view
-                                            list.add(new ModelNotifs(
-                                                    idStr,
-                                                    et.getText().toString(),
-                                                    hourInt,
-                                                    minInt
-                                            ));
-                                            adapter.notifyDataSetChanged();
-                                            alertDialog.dismiss();
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
+                                        if(task.getResult().size() > 0){
+                                            Toast.makeText(getContext(), "You cannot add this Notification anymore :/", Toast.LENGTH_SHORT).show();
+                                            //alertDialog.dismiss();
+                                            return;
+                                        }else{
+                                            HashMap<String , Object> map = new HashMap<>();
+                                            map.put("text", et.getText().toString());
+                                            map.put("hour", hourInt);
+                                            map.put("min", minInt);
+                                            map.put("id", notifId);
+
+                                            fbfs.collection("user").document(emailStr).collection("notifs").document(notifId).set(map)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()){
+                                                                Toast.makeText(getContext(), ""+notifId+map.toString(), Toast.LENGTH_SHORT).show();
+                                                                //update rec view
+                                                                list.add(new ModelNotifs(
+                                                                        notifId,
+                                                                        et.getText().toString(),
+                                                                        hourInt,
+                                                                        minInt
+                                                                ));
+                                                                AlarmHandler alarmHandler = new AlarmHandler(getContext());
+                                                                alarmHandler.setAlarmManager(hourInt, minInt);//
+                                                                Toast.makeText(getContext(), "Notification has been set", Toast.LENGTH_SHORT).show();
+                                                                adapter.notifyDataSetChanged();
+                                                                alertDialog.dismiss();
+
+                                                            }
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(getContext(), "Not saved", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
                                         }
+
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "Not saved", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "failed to retrieve notif details", Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+
+                        
 
                     }else{
                         //update
@@ -307,6 +338,9 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            AlarmHandler alarmHandler = new AlarmHandler(getContext());
+                                            alarmHandler.cancelAlarmManager(list.get(index).hourNotif, list.get(index).minNotif);
+                                            alarmHandler.setAlarmManager(hourInt, minInt);
                                             Toast.makeText(getContext(), "Successfully updated", Toast.LENGTH_SHORT).show();
                                             //adapter.notifyDataSetChanged();
                                             //update rec view
