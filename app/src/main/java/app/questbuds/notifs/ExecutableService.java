@@ -51,15 +51,12 @@ public class ExecutableService extends BroadcastReceiver {
         intent1.putExtra("to", "current");
 
         //Bundle bundle = intent.getBundleExtra("notifid");
-
-
-
+        
         //String idStr = new SimpleDateFormat("hhmmss", Locale.getDefault()).format(new Date());
         int hr = Integer.parseInt(new SimpleDateFormat("HH", Locale.getDefault()).format(new Date()));
         int min = Integer.parseInt(new SimpleDateFormat("mm", Locale.getDefault()).format(new Date()));
         //String idStr = intent.getStringExtra("notifid");
         //intent.getBundleExtra("notifids").getString("notifid");//intent.getStringExtra("notifid");
-
 
         //PendingIntent pendingIntent = PendingIntent.getActivity(context, 69, intent1, PendingIntent.FLAG_IMMUTABLE);
 
@@ -76,40 +73,46 @@ public class ExecutableService extends BroadcastReceiver {
         - get text value
         - set notification id
         - show notification
-         */
+
         showNotification(
                 context,
                 "Buddy, you've got Quests!",
                 "Tap to view your Quests",
                 intent1);
 
-        /*
+         */
+//        /*
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         fbfs = FirebaseFirestore.getInstance();
+
         fbfs.collection("user").document(user.getEmail()).collection("notifs")
-                .get(Source.CACHE)
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                         int difference = 1440;
+                        DocumentSnapshot out = null;
                         for (DocumentSnapshot snap: task.getResult()) {
+                            //Toast.makeText(context, "got here" + task.getResult().size(), Toast.LENGTH_SHORT).show();
                             //get closest time
                             int temp = snap.getLong("hour").intValue();
                             temp = (temp*60) + snap.getLong("min").intValue();
-                            if (difference > Math.abs(temp - ((hr*60) + min))){
+//                            /*
+                            if (difference >= Math.abs(temp - ((hr*60) + min))){
                                 difference = Math.abs(temp - ((hr*60) + min));
-                            }else{
-                                showNotification(
-                                        context,
-                                        "Buddy, you've got Quests!",
-                                        snap.getString("text").equals("") ? "Tap to view your Quests" : snap.getString("text"),
-                                        intent1);
+                                out = snap;
+                            }else {
                                 break;
                             }
-
+//                            */
 
                         }
-
+                        showNotification(
+                                context,
+                                "Buddy, you've got Quests!",
+                                out.getString("text").equals("") ? "Tap to view your Quests" : out.getString("text"),
+                                intent1);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -118,7 +121,9 @@ public class ExecutableService extends BroadcastReceiver {
                     }
                 });
 
-         */
+//         */
+
+
 
     }
     public void showNotification(Context context, String title, String body, Intent intent) {

@@ -314,8 +314,6 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                                                         }
                                                     });
                                         }
-
-
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
