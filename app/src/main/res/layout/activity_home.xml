@@ -84,6 +84,20 @@
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintLeft_toRightOf="@id/btnAddTasks"
         app:layout_constraintTop_toTopOf="@id/constraintLayout" />
+    <TextView
+        android:id="@+id/btnSettings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple_dark_on_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:drawableLeft="@drawable/svg_settings_24"
+        android:drawableTint="@color/gray"
+        android:padding="8dp"
+        android:text=""
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnNotifs"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

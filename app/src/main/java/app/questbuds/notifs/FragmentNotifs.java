@@ -291,7 +291,7 @@ public class FragmentNotifs extends Fragment implements RecViewInterfaceNotifs {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()){
-                                                                Toast.makeText(getContext(), ""+notifId+map.toString(), Toast.LENGTH_SHORT).show();
+                                                                //Toast.makeText(getContext(), ""+notifId+map.toString(), Toast.LENGTH_SHORT).show();
                                                                 //update rec view
                                                                 list.add(new ModelNotifs(
                                                                         notifId,

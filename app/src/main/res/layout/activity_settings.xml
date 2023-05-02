@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/light_gray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="32dp"
+    tools:context=".Settings">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/modelica_bold"
+        android:text="Settings"
+        android:textColor="@color/charc"
+        android:textSize="32sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnIgnoreBattOpti"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/ripple_dark_on_white"
+        android:theme="@style/darkOnWhite"
+        android:text="Request to ignore Battery optimizations"
+        android:fontFamily="@font/modelica_medium"
+        android:textColor="@color/charc"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/textView12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/btnAllowAutoStart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/ripple_dark_on_white"
+        android:theme="@style/darkOnWhite"
+        android:text="Request to allow AutoStart"
+        android:fontFamily="@font/modelica_medium"
+        android:textColor="@color/charc"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/btnIgnoreBattOpti"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <Button
+        android:id="@+id/btnAboutDev"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/ripple_dark_on_white"
+        android:theme="@style/darkOnWhite"
+        android:text="About the Developer"
+        android:fontFamily="@font/modelica_medium"
+        android:textColor="@color/charc"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/btnAllowAutoStart"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <Button
+        android:id="@+id/btnReportBug"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/ripple_dark_on_white"
+        android:theme="@style/darkOnWhite"
+        android:text="Report a bug"
+        android:fontFamily="@font/modelica_medium"
+        android:textColor="@color/charc"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/btnAboutDev"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <Button
+        android:id="@+id/btnSettingsSignOut"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/ripple_white_on_dark"
+        android:text="Sign out"
+        android:fontFamily="@font/modelica_medium"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btnReportBug"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

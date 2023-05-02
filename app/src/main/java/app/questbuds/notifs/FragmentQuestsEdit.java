@@ -294,7 +294,7 @@ public class FragmentQuestsEdit extends Fragment implements RecViewInterfaceMana
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()){
-                                            Toast.makeText(getContext(), ""+emailStr+map.toString(), Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(getContext(), ""+emailStr+map.toString(), Toast.LENGTH_SHORT).show();
                                             //update rec view
                                             list.add(new ModelQuests(
                                                     idStr,

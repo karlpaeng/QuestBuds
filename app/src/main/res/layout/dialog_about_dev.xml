@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="48dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clasdfg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:background="@drawable/shape_round_big"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/modelica_bold"
+            android:text="QuestBuds"
+            android:textColor="@color/charc"
+            android:textSize="38sp"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintTop_toTopOf="@id/ivAppLogo"
+            app:layout_constraintLeft_toRightOf="@id/ivAppLogo"/>
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/modelica_bold"
+            android:text="Version 69.420"
+            android:textColor="@color/charc"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@id/ivAppLogo"
+            app:layout_constraintTop_toBottomOf="@id/ivAppLogo"/>
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
+            android:fontFamily="@font/modelica_bold_italic"
+            android:text="To-do app and \nNotifications"
+            android:textColor="@color/gray"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="@id/textView14"
+            app:layout_constraintTop_toBottomOf="@id/textView14"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivAppLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            app:shapeAppearanceOverlay="@style/ImageView.Round"
+            app:srcCompat="@mipmap/ic_launcher_round"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_round_big"
+        android:fontFamily="@font/modelica_medium"
+        android:padding="16dp"
+        android:text="Cloud-based productivity app for Tasks and Notifications"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/clasdfg"/>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Creator"
+        android:fontFamily="@font/modelica_bold"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/ivAppLogo"
+        app:layout_constraintTop_toBottomOf="@id/textView17"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginTop="8dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/shape_round_big"
+        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        tools:layout_editor_absoluteX="24dp">
+
+        <ImageView
+            android:id="@+id/ivContri"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/my_face" />
+
+
+        <TextView
+            android:id="@+id/tvDescriContri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-16dp"
+            android:fontFamily="@font/modelica_bold"
+            android:includeFontPadding="false"
+            android:padding="8dp"
+            android:text="Programmer, Mobile \nDeveloper"
+            android:textColor="@color/gray"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tvNameContri"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameContri" />
+
+        <TextView
+            android:id="@+id/tvNameContri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/modelica_medium"
+            android:includeFontPadding="false"
+            android:padding="8dp"
+            android:text="Karl Raphael Briñas"
+            android:textColor="@color/charc"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toRightOf="@+id/ivContri"
+            app:layout_constraintTop_toTopOf="@+id/ivContri" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/modelica_bold"
+        android:text="Links"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/ivAppLogo"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+    <TextView
+        android:id="@+id/tvGitHub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/modelica_bold_italic"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:text="Github"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        android:background="@drawable/ripple_big_corner_gray_on_white"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintLeft_toLeftOf="@id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/ripple_big_corner_gray_on_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/modelica_bold_italic"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:text="Email"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        app:layout_constraintLeft_toRightOf="@+id/tvGitHub"
+        app:layout_constraintTop_toTopOf="@+id/tvGitHub" />
+
+    <TextView
+        android:id="@+id/tvLinkTree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/ripple_big_corner_gray_on_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/modelica_bold_italic"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:text="LinkTree"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        app:layout_constraintLeft_toRightOf="@id/tvEmail"
+        app:layout_constraintTop_toTopOf="@+id/tvGitHub" />
+</androidx.constraintlayout.widget.ConstraintLayout>

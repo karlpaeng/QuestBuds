@@ -32,9 +32,6 @@ public class AlarmHandler {
         PendingIntent sender = PendingIntent.getBroadcast(context, code, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (am != null){
-            long trigAfter = 5 * 1000;
-            long trigEvery = AlarmManager.INTERVAL_DAY;
-            trigEvery = 24 * 1000;
             int hrNow = Integer.parseInt(new SimpleDateFormat("HH", Locale.getDefault()).format(new Date()));
             int minNow = Integer.parseInt(new SimpleDateFormat("mm", Locale.getDefault()).format(new Date()));
             int secNow = Integer.parseInt(new SimpleDateFormat("ss", Locale.getDefault()).format(new Date()));
@@ -75,7 +72,7 @@ public class AlarmHandler {
 
             }
             x = x + temp;
-            Toast.makeText(context, temp + ":" + hrNow + minNow, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, temp + ":" + hrNow + minNow, Toast.LENGTH_SHORT).show();
 
 //            calendar.set(Calendar.HOUR_OF_DAY, hr);
 //            calendar.set(Calendar.MINUTE, min);

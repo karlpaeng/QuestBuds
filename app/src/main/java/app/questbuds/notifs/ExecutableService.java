@@ -39,22 +39,23 @@ public class ExecutableService extends BroadcastReceiver {
     public static String NOTIFICATION = "qnotif";
     public static String NOTIFICATION_CHANNEL_NAME = "qnotif-chan-name";
 
-    GoogleSignInClient client;
-    GoogleSignInOptions options;
-
     FirebaseFirestore fbfs;
+
+    int hr, min;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        fbfs = FirebaseFirestore.getInstance();
+        AlarmHandler alarmHandler = new AlarmHandler(context);
         //
         Intent intent1 = new Intent(context, MainActivity.class);
         intent1.putExtra("to", "current");
 
         //Bundle bundle = intent.getBundleExtra("notifid");
-        
+
         //String idStr = new SimpleDateFormat("hhmmss", Locale.getDefault()).format(new Date());
-        int hr = Integer.parseInt(new SimpleDateFormat("HH", Locale.getDefault()).format(new Date()));
-        int min = Integer.parseInt(new SimpleDateFormat("mm", Locale.getDefault()).format(new Date()));
+
         //String idStr = intent.getStringExtra("notifid");
         //intent.getBundleExtra("notifids").getString("notifid");//intent.getStringExtra("notifid");
 
@@ -62,7 +63,7 @@ public class ExecutableService extends BroadcastReceiver {
 
         //Toast.makeText(context, "ooh toasty", Toast.LENGTH_SHORT).show();
 
-        AlarmHandler alarmHandler = new AlarmHandler(context);
+
         //alarmHandler.setAlarmManager(hr, min);//
 
         //important
@@ -82,14 +83,15 @@ public class ExecutableService extends BroadcastReceiver {
 
          */
 //        /*
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        fbfs = FirebaseFirestore.getInstance();
+
 
         fbfs.collection("user").document(user.getEmail()).collection("notifs")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        hr = Integer.parseInt(new SimpleDateFormat("HH", Locale.getDefault()).format(new Date()));
+                        min = Integer.parseInt(new SimpleDateFormat("mm", Locale.getDefault()).format(new Date()));
 
                         int difference = 1440;
                         DocumentSnapshot out = null;
@@ -106,18 +108,22 @@ public class ExecutableService extends BroadcastReceiver {
                                 break;
                             }
 //                            */
-
                         }
+                        alarmHandler.setAlarmManager(out.getLong("hour").intValue(), out.getLong("min").intValue());
                         showNotification(
                                 context,
                                 "Buddy, you've got Quests!",
-                                out.getString("text").equals("") ? "Tap to view your Quests" : out.getString("text"),
+                                out.getString("text").equals("") ? "Tap to view your Quests" : out.getString("text") + "\nTap to view your Quests" ,
                                 intent1);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "failed to retrieve notification details", Toast.LENGTH_SHORT).show();
+                        showNotification(
+                                context,
+                                "Buddy, you've got Quests!",
+                                "Tap to see your Quests now" ,
+                                intent1);
                     }
                 });
 

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -210,4 +211,5 @@ public class MainActivity extends AppCompatActivity {
             return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
         }
     }
+
 }

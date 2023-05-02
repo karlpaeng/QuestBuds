@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_round_big"
+    android:paddingVertical="32dp">
+    <TextView
+        android:id="@+id/tvTopDiaGeneric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/modelica_medium"
+        android:text="Edit Notification details"
+        android:textColor="@color/charc"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvContentDiaGeneric"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/modelica_medium"
+        android:text="Time"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/tvTopDiaGeneric"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTopDiaGeneric"/>
+    <Button
+        android:id="@+id/btnOKDiaGeneric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple_white_on_dark"
+        android:fontFamily="@font/modelica_medium"
+        android:paddingHorizontal="16dp"
+        android:text="Okay"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:theme="@style/whiteOnGray"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvContentDiaGeneric"/>
+    <Button
+        android:id="@+id/btnCancelDiaGeneric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple_white_on_dark"
+        android:fontFamily="@font/modelica_medium"
+        android:paddingHorizontal="16dp"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:theme="@style/whiteOnGray"
+        app:layout_constraintRight_toLeftOf="@id/btnOKDiaGeneric"
+        app:layout_constraintTop_toTopOf="@id/btnOKDiaGeneric"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
