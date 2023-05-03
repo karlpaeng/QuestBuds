@@ -119,7 +119,7 @@ public class BootReceiver extends BroadcastReceiver {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntent(intent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                0,
+                1,
                 PendingIntent.FLAG_IMMUTABLE
         );
         mBuilder.setContentIntent(resultPendingIntent);
